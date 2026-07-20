@@ -42,6 +42,60 @@ for(let i=0;i<starCount;i++){
 
 }
 
+// NEBULA EFEKTİ
+
+const nebulaGeometry = new THREE.BufferGeometry();
+
+const nebulaPositions = [];
+
+for(let i = 0; i < 1500; i++){
+
+    const radius = Math.random() * 700;
+
+    const angle = Math.random() * Math.PI * 2;
+
+
+    nebulaPositions.push(
+        Math.cos(angle) * radius,
+        (Math.random()-0.5) * 300,
+        Math.sin(angle) * radius - 800
+    );
+
+}
+
+
+nebulaGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(
+        nebulaPositions,
+        3
+    )
+);
+
+
+const nebulaMaterial = new THREE.PointsMaterial({
+
+    color:0x9b5cff,
+
+    size:8,
+
+    transparent:true,
+
+    opacity:0.12,
+
+    blending:THREE.AdditiveBlending
+
+});
+
+
+const nebula = new THREE.Points(
+    nebulaGeometry,
+    nebulaMaterial
+);
+
+
+scene.add(nebula);
+
 
 starGeometry.setAttribute(
     "position",
@@ -76,24 +130,31 @@ scene.add(stars);
 
 function animate(){
 
-    requestAnimationFrame(animate);
+    // SİNEMATİK UÇUŞ
+
+let time = Date.now()*0.0002;
 
 
-    // ileri uçuş hissi
-
-    camera.position.z -= 0.08;
+camera.position.z -= 0.05;
 
 
-    // yumuşak dönüş
-
-    camera.rotation.z = 
-    Math.sin(Date.now()*0.0003)*0.15;
+camera.position.x =
+Math.sin(time)*2;
 
 
-    camera.rotation.y =
-    Math.sin(Date.now()*0.0002)*0.2;
+camera.position.y =
+Math.cos(time*0.8)*1.5;
 
 
+
+camera.rotation.y =
+Math.sin(time)*0.25;
+
+
+camera.rotation.z =
+Math.sin(time*0.7)*0.08;
+
+}
 
     // yıldız hareketi
 
